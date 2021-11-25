@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/bin/Debug/net5.0/TrieConsole.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (wsl2)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "/mnt/c/Users/Peter/source/repos/TrieConsole/trie-console/TrieConsole/bin/Debug/net5.0/TrieConsole.dll",
+            "cwd": "/mnt/c/Users/Peter/source/repos/TrieConsole/trie-console/TrieConsole",
+            "console": "integratedTerminal",
+            "pipeTransport": {
+              "pipeCwd": "${workspaceRoot}",
+              "pipeProgram": "bash.exe",
+              "pipeArgs": ["-c"],
+              "debuggerPath": "~/vsdbg/vsdbg"
+            },
+            "sourceFileMap": {
+              "/mnt/c/Users/Peter/source/repos/TrieConsole/trie-console/TrieConsole": "C:\\Users\\Peter\\source\\repos\\TrieConsole\\trie-console\\TrieConsole"
+            },
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}
