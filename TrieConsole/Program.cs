@@ -16,7 +16,7 @@ namespace TrieConsole
 
         private static void ReadText()
         {
-            string str = "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.";
+            string str = "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains within.";
             string[] arrStr = str.Split(" ");
             _root = new Trie();
 
@@ -60,16 +60,19 @@ namespace TrieConsole
         {
             Trie nextTrie;
 
-            // base case to print out count of word occurrences
+            // base case to print out count of word occurrences for leaf node
             if (node.DicAlphabet.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(word);
-                Console.ResetColor();
-                Console.Write($" appears { node.Count } times.\n");
+                PrintWordCount(word, node.Count);
             }
             else
             {
+                // print word count for node
+                if (node.Count >= 1)
+                {
+                    PrintWordCount(word, node.Count);
+                }
+
                 foreach (char currLetter in node.DicAlphabet.Keys)
                 {
                     nextTrie = node.DicAlphabet[currLetter];
@@ -77,6 +80,21 @@ namespace TrieConsole
                     ReadNodeCounts(nextTrie, (word + currLetter.ToString()));
                 }
             }
+        }
+
+        private static void PrintWordCount(string word, int wordCount)
+        {
+            string timesDisplayMsg = "times";
+
+            if (wordCount == 1)
+            {
+                timesDisplayMsg = "time";
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(word);
+            Console.ResetColor();
+            Console.Write($" appears { wordCount } { timesDisplayMsg }.\n");
         }
     }
 }
