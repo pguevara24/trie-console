@@ -9,7 +9,7 @@ namespace TrieConsole
 
         public Trie()
         {
-            DicAlphabet = new SortedDictionary<char, Trie>();
+            DicAlphabet = [];
             Count = 0;
         }
     }
