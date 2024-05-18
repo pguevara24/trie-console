@@ -15,11 +15,8 @@ namespace TrieConsole
         {
             ReadText();
 
-            if (_root != null)
-            {
-                PrintOutWordCounts();
-            }
-
+            PrintOutWordCounts();
+            
             Console.WriteLine();
             Console.WriteLine("Press return to exit");
 
@@ -87,8 +84,7 @@ namespace TrieConsole
 
             sb.Replace("-", "");
 
-            string strFile = sb.ToString();
-            return strFile;
+            return sb.ToString();
         }
 
         private static Trie InsertNodes(Trie node, string str)
@@ -118,6 +114,11 @@ namespace TrieConsole
 
         private static void PrintOutWordCounts()
         {
+            if (_root == null)
+            {
+                return;
+            }
+
             // get count of word occurrences in the trie
             ReadNodeCounts(_root, string.Empty);
         }
