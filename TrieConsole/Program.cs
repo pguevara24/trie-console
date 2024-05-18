@@ -16,12 +16,6 @@ namespace TrieConsole
             ReadText();
 
             PrintOutWordCounts();
-            
-            Console.WriteLine();
-            Console.WriteLine("Press return to exit");
-
-            // wait for user input
-            Console.ReadLine();
         }
 
         private static void ReadText()
@@ -119,39 +113,61 @@ namespace TrieConsole
                 return;
             }
 
+            Console.Clear();
+
             // get count of word occurrences in the trie
-            ReadNodeCounts(_root, string.Empty);
+            ReadNodeCounts(_root, string.Empty, 1);
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Press return to exit");
+            Console.ResetColor();
+
+            Console.ReadLine();
         }
 
-        private static void ReadNodeCounts(Trie node, string word)
+        private static int ReadNodeCounts(Trie node, string word, int printCount)
         {
             Trie nextTrie;
 
             // base case to print out count of word occurrences for leaf node
             if (node.DicAlphabet.Count == 0)
             {
-                PrintWordCount(word, node.Count);
+                PrintWordCount(word, node.Count, printCount);
+
+                printCount++;
             }
             else
             {
                 // print word count for node
                 if (node.Count >= 1)
                 {
-                    PrintWordCount(word, node.Count);
+                    PrintWordCount(word, node.Count, printCount);
+
+                    printCount++;
                 }
 
                 foreach (char currLetter in node.DicAlphabet.Keys)
                 {
                     nextTrie = node.DicAlphabet[currLetter];
 
-                    ReadNodeCounts(nextTrie, word + currLetter.ToString());
+                    printCount = ReadNodeCounts(nextTrie, word + currLetter.ToString(), printCount);
                 }
             }
+
+            return printCount;
         }
 
-        private static void PrintWordCount(string word, int wordCount)
+        private static void PrintWordCount(string word, int wordCount, int printCount)
         {
+            const int BATCH_SIZE = 300;
+            const int COLS = 3;
+            const int COL_WIDTH = 50;
+            const int WORD_COUNT_MAX_ADD_TAB = 1000;
+
             string timesDisplayMsg = "times";
+            string message;
+            int padding;
 
             if (wordCount == 1)
             {
@@ -161,7 +177,43 @@ namespace TrieConsole
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(word);
             Console.ResetColor();
-            Console.Write($" appears { wordCount } { timesDisplayMsg }.\n");
+
+            message = $" appears { wordCount } { timesDisplayMsg }";
+            padding = COL_WIDTH - (word.Length + message.Length);
+
+            if (printCount % COLS != 0 && padding > 0)
+            {
+                message = message.PadRight(padding);
+            }
+
+            if (printCount % COLS != 0 && wordCount > WORD_COUNT_MAX_ADD_TAB)
+            {
+                message += "\t";
+            }
+
+            if (printCount % COLS == 0)
+            {
+                Console.Write($"{ message }\n");
+            }
+            else
+            {
+                Console.Write($"{ message }\t");
+            }
+
+            if (printCount % BATCH_SIZE == 0)
+            {
+                Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Press enter to view next batch or esc to exit");
+                Console.ResetColor();
+
+                ConsoleKeyInfo info = Console.ReadKey(true);
+
+                if (info.Key == ConsoleKey.Escape)
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
     }
 }
